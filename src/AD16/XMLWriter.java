@@ -32,7 +32,7 @@ public class XMLWriter {
 	Product po3 = new Product("cod3", "tachas", 5);
 	Product po4 = null;
 
-	//Método codigo de Serialización2
+	//Método cogido de Serialización2
 	public void serializar() {
 		try {
 			if (!file.exists()) {
@@ -64,7 +64,7 @@ public class XMLWriter {
 		}
 	}
 	
-	//Método codigo de Serialización2
+	//Método cogido de Serialización2
 	private void leerSerializacion() {
 
 		try {
