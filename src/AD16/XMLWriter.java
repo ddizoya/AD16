@@ -32,7 +32,7 @@ public class XMLWriter {
 	Product po3 = new Product("cod3", "tachas", 5);
 	Product po4 = null;
 
-	//Método cogido de Serialización2
+	// Método cogido de Serialización2
 	public void serializar() {
 		try {
 			if (!file.exists()) {
@@ -63,8 +63,8 @@ public class XMLWriter {
 			}
 		}
 	}
-	
-	//Método cogido de Serialización2
+
+	// Método cogido de Serialización2
 	private void leerSerializacion() {
 
 		try {
@@ -83,9 +83,13 @@ public class XMLWriter {
 			e.printStackTrace();
 		}
 	}
-	
-	//Método para crear cada objeto Product como xml
-	private void nuevoProduct(Product[] s) throws XMLStreamException {
+
+	// Método para crear cada objeto Product como xml
+	private void XML(Product[] s) throws XMLStreamException, IOException {
+		xsw = xof.createXMLStreamWriter(new FileWriter(fich));
+		xsw.writeStartDocument("1.0");
+		xsw.writeStartElement("produtos"); // Inicio etiqueta raíz.
+
 		int i = 0;
 		while (i < s.length) {
 			xsw.writeStartElement("produto");
@@ -104,41 +108,31 @@ public class XMLWriter {
 			i++;
 		}
 
+		xsw.writeEndElement(); // Fin tiqueta raíz.
+		xsw.close(); // Cerramos el Streaming al fichero.
+
 	}
 
-	
-	
-	//Método principal, donde serializamos, leermos y creamos el xml. 
-	public void crearXMLProducts() {
-		try {
-			serializar();
-			leerSerializacion(); // Método propio para leer objetos
-									// serializados.
+	// Método principal, donde serializamos, leermos y creamos el xml.
+	public void crearXMLObjetos() throws XMLStreamException, IOException {
+		serializar();
+		leerSerializacion(); // Método propio para leer objetos serializados.
+		XML(arr); // Método propio para etiquetar en XML cada objeto.
 
-			xsw = xof.createXMLStreamWriter(new FileWriter(fich));
-			xsw.writeStartDocument("1.0");
-			xsw.writeStartElement("produtos"); // Inicio etiqueta raíz.
-
-			nuevoProduct(arr); // Método propio para etiquetar en XML cada
-								// objeto.
-
-			xsw.writeEndElement(); // Fin tiqueta raíz.
-			xsw.close(); // Cerramos el Streaming al fichero.
-			
-			Desktop d = Desktop.getDesktop();	
-			d.open(new File(fich));
-
-		} catch (IOException e) {
-			e.printStackTrace();
-		} catch (XMLStreamException e) {
-			e.printStackTrace();
-		}
+		Desktop d = Desktop.getDesktop(); // Abrir el fichero xml en el navegador.
+		d.open(new File(fich));
 
 	}
 
 	public static void main(String[] args) {
 		XMLWriter aux = new XMLWriter();
-		aux.crearXMLProducts();
+		try {
+			aux.crearXMLObjetos();
+
+		} catch (XMLStreamException | IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
